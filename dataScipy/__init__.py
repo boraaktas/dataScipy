@@ -1,5 +1,5 @@
-"""Top-level package for Data Science Basics."""
+"""Top-level package for dataScipy"""
 
 __author__ = """Bora Aktas"""
 __email__ = "baktas19@ku.edu.tr"
-__version__ = '0.0.0.1'
+__version__ = '0.0.1'
