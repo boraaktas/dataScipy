@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dataScipy"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="Bora Aktas", email="baktas19@ku.edu.tr" },
 ]
