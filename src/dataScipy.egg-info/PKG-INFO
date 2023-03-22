@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: dataScipy
+Version: 0.0.1
+Summary: Python Library for some data-science tasks
+Author-email: Bora Aktas <baktas19@ku.edu.tr>
+Project-URL: Homepage, https://github.com/boraaktas/dataScipy
+Project-URL: Bug Tracker, https://github.com/boraaktas/dataScipy/issues
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+License-File: LICENCE
+License-File: AUTHORS.md
+
+# dataScipy
+
+I am planning to write a library which includes some basic data-science functions.
+I am not going to write all functions from the scratch, but they will be more understandable for me to use them in other projects :)

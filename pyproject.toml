@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dataScipy"
+version = "0.0.1"
+authors = [
+  { name="Bora Aktas", email="baktas19@ku.edu.tr" },
+]
+description = "Python Library for some data-science tasks"
+readme = "README.md"
+requires-python = ">=3.5"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+license = {file = "LICENSE"}
+dependencies = [
+  "numpy",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/boraaktas/dataScipy"
+"Bug Tracker" = "https://github.com/boraaktas/dataScipy/issues"

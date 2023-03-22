@@ -1,0 +1,11 @@
+AUTHORS.md
+LICENCE
+README.md
+pyproject.toml
+src/dataScipy/DataScience.py
+src/dataScipy/__init__.py
+src/dataScipy.egg-info/PKG-INFO
+src/dataScipy.egg-info/SOURCES.txt
+src/dataScipy.egg-info/dependency_links.txt
+src/dataScipy.egg-info/requires.txt
+src/dataScipy.egg-info/top_level.txt
