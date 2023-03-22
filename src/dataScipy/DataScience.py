@@ -66,3 +66,17 @@ def MAPE(realVals, forecastVals):
     realVals, forecastVals = make_length_equal_to_compare(realVals, forecastVals)
 
     return np.mean(np.abs((np.array(realVals) - np.array(forecastVals))/np.array(realVals)))*100
+
+
+
+def calculate_Error(error_method, realVals, forecastVals):
+    """
+    Compute the error between the real and forecast values.
+    :param error_method: the error method to use (function)
+    :param realVals: the real values (list)
+    :param forecastVals: the forecast values (list)
+    :return: the error (float)
+    """
+    realVals, forecastVals = make_length_equal_to_compare(realVals, forecastVals)
+    
+    return error_method(realVals, forecastVals)
