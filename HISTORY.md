@@ -1,6 +1,10 @@
 # History
 ---
 
+## 0.0.3 (22/03/2023)
+
+-   Some forecasts methods are added.
+
 ## 0.0.2 (22/03/2023)
 
 -   Trying to update library.

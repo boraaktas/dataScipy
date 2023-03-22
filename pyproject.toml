@@ -26,6 +26,7 @@ classifiers = [
 license = {file = "LICENSE"}
 dependencies = [
   "numpy",
+  "matplotlib",
 ]
 
 [project.urls]
