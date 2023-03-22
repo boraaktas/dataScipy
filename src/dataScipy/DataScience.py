@@ -192,7 +192,7 @@ def make_forecast_for_all_data(data, period_ahead, forecast_method, **kwargs):
     forecasts = list(np.repeat(None, period_ahead))
     
     for i in range(len(data)):
-        forecasts.append(forecast(data[:i+1], forecast_method, **kwargs))
+        forecasts.append(make_forecast(data[:i+1], forecast_method, **kwargs))
 
     return list(forecasts)
 
@@ -225,9 +225,9 @@ def plot_forecasts(data, horizon, forecasts):
     plt.grid()
     plt.plot(horizon, data[:number_of_dots], label='data')
     plt.plot(horizon, forecasts[:number_of_dots], label='forecast')
-    plt.xlabel('Month')
-    plt.ylabel('Demand')
-    plt.title('Australian Beer Production')
+    plt.xlabel('Time')
+    plt.ylabel('Value')
+    plt.title('Forecast and Data')
     plt.legend()
     plt.show()
 
