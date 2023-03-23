@@ -1,7 +1,12 @@
 # History
 ---
 
-## 0.0.3.2 (22/03/2023)
+## 0.0.3.3 (23/03/2023)
+
+-   Bug fixed. (scipy library is added to dependencies)
+
+
+## 0.0.3.2 (23/03/2023)
 
 -   Bug fixed.
 -   Some plotting functions are added.
