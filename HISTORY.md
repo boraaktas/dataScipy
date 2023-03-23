@@ -1,6 +1,13 @@
 # History
 ---
 
+## 0.0.3.2 (22/03/2023)
+
+-   Bug fixed.
+-   Some plotting functions are added.
+-   Some residuals functions are added.
+
+
 ## 0.0.3.1 (22/03/2023)
 
 -   Bug fixed.
