@@ -1,6 +1,11 @@
 # History
 ---
 
+## 0.0.3.4 (24/03/2023)
+
+-   Some plotting functions about actual and normalized residuals are added.
+
+
 ## 0.0.3.3 (23/03/2023)
 
 -   Bug fixed. (scipy library is added to dependencies)

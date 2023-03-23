@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import t
+import scipy.stats as stats
+from pandas import DataFrame
+from sklearn import preprocessing
+import statsmodels.api as sm
 
 ##########################################################################################
 ####################################### SOME VALUES ######################################
@@ -134,6 +138,25 @@ def print_error_summary(data, forecasts, **error_method):
 
 
 
+def print_resids_summary(residuals):
+    """
+    Print the summary of the residuals.
+    :param residuals: the residuals (list)
+    """
+    residuals_mean = np.mean(residuals)
+    residuals_sd = np.std(residuals, ddof=1)
+    no_residuals = len(residuals)
+
+    p_value = calculate_pvalue(residuals)
+    width = (residuals_sd / np.sqrt(no_residuals)) * t.ppf(0.975, no_residuals - 1, loc=0, scale=1)
+    
+    print(f'Mean of Residual:   {residuals_mean:.4f}')
+    print(f'S.D. of Residual:   {residuals_sd:.4f}')
+    print(f'Half Width :        {width:.4f}   (degree of freedom = {no_residuals - 1}, Confidence Level = 0.95)')
+    print(f'p-value :           {p_value:.4f}')
+
+
+
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
@@ -144,34 +167,160 @@ def print_error_summary(data, forecasts, **error_method):
 ##########################################################################################
 
 
-def show_residuals(residuals):
+def plot_resids(residuals):
     """
-    Plot the residuals for the forecasts and print the mean and standard deviation of the residuals.
+    Plot the residuals.
     :param residuals: the residuals (list)
     """
 
     residuals_mean = np.mean(residuals)
-    residuals_sd = np.std(residuals, ddof=1)
     no_residuals = len(residuals)
+    mean_array = [residuals_mean] * no_residuals
 
-    y_mean = [residuals_mean] * no_residuals
-    plt.figure(figsize=(12, 4))
-    plt.plot(residuals, color='b', label='Residual')
-    plt.plot(y_mean, label='Mean', linestyle='--', color='r')
+    plt.figure(figsize=(8, 4))
+    plt.plot(residuals, label='Residual', color='b')
+    plt.plot(mean_array, label='Mean', linestyle='--', color='r')
     plt.title("Residuals for the Forecast", loc = 'center')
     plt.xlabel("Time")
-    plt.ylabel("Residual")
+    plt.ylabel("Residuals")
     plt.legend()
     plt.show()
-    
-    p_value = calculate_pvalue(residuals)
-    width = (residuals_sd / np.sqrt(no_residuals)) * t.ppf(0.975, no_residuals - 1, loc=0, scale=1)
-    
-    print('Mean of Residual:   ', residuals_mean)
-    print('S.D. of Residual:   ', residuals_sd)
-    print(f'Half Width :         {width}   (degree of freedom = {no_residuals - 1}, Confidence Level = 0.95)')
-    print('p-value :           ', "%.4f" % p_value)
 
+
+
+def plot_normalized_resids(residuals):
+    """
+    Plot the normalized residuals.
+    :param residuals: the residuals (list)
+    """
+
+    residual_array = np.array(residuals)
+
+    mean = residual_array.mean()
+    std = residual_array.std()
+
+    normalized_resids = DataFrame((residual_array - np.array(mean)) / std)
+
+    plt.figure(figsize=(6, 4))
+    plt.plot(normalized_resids, label='Normalized Residual', color='b')
+    plt.title("Normalized Residuals for the Forecast", loc = 'center')
+    plt.xlabel("Time")
+    plt.ylabel("Normalized Residuals")
+    plt.legend()
+    plt.show()
+
+
+
+def plot_histogram_of_normalized_resids(residuals):
+    """
+    Plot the histogram of the normalized residuals.
+    :param residuals: the residuals (list)
+    """
+
+    residual_array = np.array(residuals)
+    
+    mean = residual_array.mean()
+    std = residual_array.std()
+
+    normalized_resids = DataFrame((residual_array - np.array(mean)) / std)
+
+    fig = plt.figure(figsize=(6, 4))
+    normalized_resids.plot(kind='hist', density=True, color='b', ec='w', ax=fig.gca(), legend=False)
+    normalized_resids.plot(kind='kde', color='r', ax=fig.gca(), legend=False)
+    plt.title("Histogram Plus Estimated Density", loc = 'center')
+    plt.ylabel("Density")
+    plt.xlabel("Residuals")
+    plt.show()
+
+
+
+def plot_normal_of_normalized_resids(residuals):
+    """
+    Plot the normal Q-Q plot of the normalized residuals.
+    :param residuals: the residuals (list)
+    """
+
+    residual_array = np.array(residuals)
+
+    rng = (0, 1)
+    scaler = preprocessing.MinMaxScaler(feature_range=(rng[0], rng[1]))
+    normed = scaler.fit_transform(residual_array.reshape(-1, 1)) 
+    residuals_norm = [round(i[0], 2) for i in normed]
+
+    plt.figure(figsize=(6, 4))
+    stats.probplot(residuals_norm, dist="norm", plot=plt)
+    plt.ylabel("Residuals")
+    plt.title("Normal Q-Q plot", loc='center')
+    plt.show()
+
+
+
+def plot_autocorrelation_of_normalized_resids(residuals):
+    """
+    Plot the autocorrelation of the residuals.
+    :param residuals: the residuals (list)
+    """
+    
+    residual_array = np.array(residuals)
+    normalized_resids = residual_array - np.array(residual_array.mean()) / residual_array.std()
+
+    plt.figure(figsize=(6, 4))
+    sm.graphics.tsa.plot_acf(normalized_resids, color='b', ax=plt.gca(), lags=np.arange(1, 30))
+    plt.title("Autocorrelation", loc='center')
+    plt.ylabel("Correlations")
+    plt.xlabel("Lags")
+    plt.show()
+
+
+
+def show_all_normalize_resids_plots(residuals):
+
+    # creating dataframe and then standardizing and normalizing
+    residual_array = np.array(residuals)
+
+    mean = residual_array.mean()
+    std = residual_array.std()
+
+    normalized_resids = DataFrame((residual_array - np.array(mean)) / std)
+
+    rng = (0, 1)
+    scaler = preprocessing.MinMaxScaler(feature_range=(rng[0], rng[1]))
+    normed = scaler.fit_transform(residual_array.reshape(-1, 1))
+    residuals_norm = [round(i[0], 2) for i in normed]
+
+    
+    # designing a 2 by 2 plot 
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+    fig.set_figheight(11)
+    fig.set_figwidth(15)
+
+    # top left subplot
+    ax1.plot(normalized_resids, color='b')
+    ax1.set_title("Normalized Residuals", loc = 'center')
+    ax1.set_xlabel("Time")
+    ax1.set_ylabel("Residuals")
+
+    # top right subplot
+    ax2.set_xlim(-4, 4)
+    ax2.set_title("Histogram Plus Estimated Density", loc='center')
+    normalized_resids.plot(kind='hist', density=True, color='b', ec='w', ax=ax2)
+    normalized_resids.plot(kind='kde', ax=ax2, color='r') 
+    ax2.set_xlabel("Residuals")
+    ax2.get_legend().remove()
+    
+    # bottom left subplot
+    stats.probplot(residuals_norm, dist="norm", plot=ax3)
+    ax3.set_title("Normal Q-Q plot", loc='center')
+    ax3.set_ylabel("Residuals")
+    
+    
+    # bottom right subplot
+    sm.graphics.tsa.plot_acf(normalized_resids, color='b', ax=ax4, lags=np.arange(1, 30))
+    ax4.set_title("Autocorrelation", loc='center')
+    ax4.set_ylabel("Correlations")
+    ax4.set_xlabel("Lags")
+
+    plt.show()
 
 
 ##########################################################################################
