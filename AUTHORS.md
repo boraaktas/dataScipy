@@ -3,4 +3,4 @@
 
 ## Authors
 
--   Bora Aktas \<<baktas19@ku.edu.tr>\>
+-   Bora Aktas \ <baktas19@ku.edu.tr\>
