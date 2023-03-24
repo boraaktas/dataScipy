@@ -1,6 +1,12 @@
 # History
 ---
 
+## 0.0.3.5 (24/03/2023)
+
+-   Some examples added to the comments of the functions.
+-   Autocorrelation function plot is added.
+
+
 ## 0.0.3.4 (24/03/2023)
 
 -   Some plotting functions about actual and normalized residuals are added.
