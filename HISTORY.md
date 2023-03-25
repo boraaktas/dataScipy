@@ -1,6 +1,10 @@
 # History
 ---
 
+## 0.0.3.6 (26/03/2023)
+
+-   Autocorrelation function plot is updated.
+
 ## 0.0.3.5 (24/03/2023)
 
 -   Some examples added to the comments of the functions.

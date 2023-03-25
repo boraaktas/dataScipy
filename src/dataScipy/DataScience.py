@@ -597,14 +597,15 @@ def plot_forecasts(data, horizon, forecasts, time_step=1):
 
 
 
-def plot_autocorrelation(values):
+def plot_autocorrelation(values, no_lags=30):
     """
     Plot the autocorrelation of the values.
     :param residuals: the residuals (list)
+    :param no_lags: the number of lags to plot (int)
 
     :Example:
     >>> data = list of data values
-    >>> plot_autocorrelation(data)
+    >>> plot_autocorrelation(data , no_lags=10)
     >>> residuals = list of residuals
     >>> plot_autocorrelation(residuals)
     """
@@ -615,6 +616,9 @@ def plot_autocorrelation(values):
     max_lag = len(values)
     if max_lag > 30:
         max_lag = 31
+
+    if no_lags < max_lag:
+        max_lag = no_lags + 1
 
     plt.figure(figsize=(6, 4)) 
     sm.graphics.tsa.plot_acf(normalized_resids, color='b', ax=plt.gca(), lags=np.arange(1, max_lag))

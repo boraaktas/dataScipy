@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: dataScipy
-Version: 0.0.3.5
+Version: 0.0.3.6
 Summary: Python Library for some data-science tasks
 Author-email: Bora Aktas <baktas19@ku.edu.tr>
 Project-URL: Homepage, https://github.com/boraaktas/dataScipy
@@ -20,7 +20,7 @@ Description-Content-Type: text/markdown
 License-File: LICENCE
 License-File: AUTHORS.md
 
-# dataScipy
+# dataScipy - Data Science Library
 
 I am planning to write a library which includes some basic data-science functions.
 I am not going to write all functions from the scratch, but they will be more understandable for me to use them in other projects :)
