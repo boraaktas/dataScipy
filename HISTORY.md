@@ -1,6 +1,11 @@
 # History
 ---
 
+## 0.0.3.7 (26/03/2023)
+
+-   Bug fixed. ("make_length_equal_to_compare()")
+
+
 ## 0.0.3.6 (26/03/2023)
 
 -   Autocorrelation function plot is updated.

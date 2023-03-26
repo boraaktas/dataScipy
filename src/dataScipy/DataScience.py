@@ -48,9 +48,9 @@ def make_length_equal_to_compare(realVals, forecastVals):
     >>> realVals, forecastVals = make_length_equal_to_compare(data, forecasts)
     """
     no_None = forecastVals.count(None)
-    if no_None != 0:
-        realVals = list(np.array(realVals)[no_None:])
-        forecastVals = list((np.array(forecastVals)[no_None:])[:len(realVals)])
+
+    realVals = list(np.array(realVals)[no_None:])
+    forecastVals = list((np.array(forecastVals)[no_None:])[:len(realVals)])
 
     return realVals, forecastVals
 
