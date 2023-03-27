@@ -1,6 +1,10 @@
 # History
 ---
 
+## 0.0.3.9 (27/03/2023)
+
+-  Bug fixed. (deseasonalize_series function)
+
 ## 0.0.3.8 (27/03/2023)
 
 -  Dta Tansformation functions are added. (log, differenced, seasonal differenced)

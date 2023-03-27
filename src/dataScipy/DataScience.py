@@ -629,7 +629,7 @@ def plot_forecasts(data, horizon, forecasts, time_step=1):
 def plot_autocorrelation(values, no_lags=30):
     """
     Plot the autocorrelation of the values.
-    :param residuals: the residuals (list)
+    :param values: the values (list)
     :param no_lags: the number of lags to plot (int)
 
     :Example:
@@ -718,7 +718,7 @@ def deseasonalize_series(series, season_length):
 
     for i in range(len(series)):
         if i < season_length:
-            continue
+            deseasonalized_series.append(None)
         else:
             deseasonalized_series.append(series[i] - series[i - season_length])
 
