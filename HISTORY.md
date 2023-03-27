@@ -1,6 +1,11 @@
 # History
 ---
 
+## 0.0.3.8 (27/03/2023)
+
+-  Dta Tansformation functions are added. (log, differenced, seasonal differenced)
+
+
 ## 0.0.3.7 (26/03/2023)
 
 -   Bug fixed. ("make_length_equal_to_compare()")
@@ -9,6 +14,7 @@
 ## 0.0.3.6 (26/03/2023)
 
 -   Autocorrelation function plot is updated.
+
 
 ## 0.0.3.5 (24/03/2023)
 
@@ -37,14 +43,17 @@
 
 -   Bug fixed.
 
+
 ## 0.0.3 (22/03/2023)
 
 -   Some forecasts methods are added.
+
 
 ## 0.0.2 (22/03/2023)
 
 -   Trying to update library.
 -   calculate_Error(list list) function added.
+
 
 ## 0.0.1 (22/03/2023)
 

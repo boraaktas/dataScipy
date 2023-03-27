@@ -26,6 +26,7 @@ def calculate_pvalue(residuals):
     
     return p_value
 
+
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
@@ -465,6 +466,34 @@ def ES_forecast(data, alpha, step_ahead=1):
 
 
 
+def ES_forecast_for_all_data(data, alpha, h=1):
+
+    """
+    This function generates an exponential smoothing forecast for all data,
+    calling itself recursively with the h steps ahead.
+    :param data: data (list)
+    :param alpha: smoothing parameter (float)
+    :param h: number of steps ahead (int)
+    :return: ES forecast (list)
+
+    :Example:
+    >>> data = list of data values
+    >>> ES_forecast_for_all_data(data, 0.5, recursive_step)
+    """
+
+    y_hat = [0] * len(data)
+
+    y_hat[0:h] = data[0:h]
+
+    for i in range(h, len(data)):
+        y_hat[i] = alpha * data[i - h] + (1 - alpha) * y_hat[i - h]
+
+    y_hat[0:h] = [None] * (h)
+
+    return y_hat
+
+
+
 def make_forecast(data, forecast_method, **kwargs):
     """
     Create a forecast for the next value in the time series.
@@ -628,9 +657,133 @@ def plot_autocorrelation(values, no_lags=30):
     plt.show()
 
 
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+##########################################################################################
+################################### DATA TRANSFORMATIONS #################################
+##########################################################################################
+
+
+def take_log_of_series(series):
+    """
+    This function takes the log transform of a series and returns the log transformed series.
+    :param series: series (list)
+    :return: log transformed series (list)
+
+    :Example:
+    >>> take_log_of_series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    """
+
+    series_array = np.array(series)
+
+    log_series = np.log(series_array)
+
+    return list(log_series)
 
 
 
+def take_diff_of_series(series):
+    """
+    This function takes the difference of a series and returns the difference series.
+    :param series: series (list)
+    :return: series that is the difference of the input series (list)
+
+    :Example:
+    >>> take_diff_of_series([1, 2, 3, 4, 5])
+    """
+
+    series_array = np.array(series)
+
+    diff_series = np.diff(series_array)
+
+    return list(diff_series)
 
 
+
+def deseasonalize_series(series, season_length):
+    """
+    This function takes the seaonal difference of a series and returns the deseasonalized series.
+    :param series: series (list)
+    :param season_length: length of the season (int)
+    :return: deseasonalized series (list)
+
+    :Example:
+    >>> deseasonalize_series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3)
+    """
+
+    deseasonalized_series = []
+
+    for i in range(len(series)):
+        if i < season_length:
+            continue
+        else:
+            deseasonalized_series.append(series[i] - series[i - season_length])
+
+    return deseasonalized_series
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+##########################################################################################
+###################################### GENERATE SERIES ###################################
+##########################################################################################
+
+def generate_AR_process(c, phi, errors, lenght_of_series):
+
+    """
+    This function generates an AR process with the given parameters.
+    :param c: constant (float)
+    :param sigma: standard deviation of the error term (float)
+    :param phi: auto-regression coefficients (list)
+    :param errors: error term (list)
+    :param lenght: lenght of the AR process (int)
+    :return: AR process (list)
+
+    :Example:
+    >>> generate_AR_process(0, 1, 0.5)
+    """
+
+    AR_process = []
+
+    for i in range(lenght_of_series + 1):
+        if i == 0:
+            AR_process.append(c)
+        else:
+            AR_process.append(c + sum([phi[j] * AR_process[i - j - 1] for j in range(len(phi))]) + errors[i])
+
+    return AR_process
+
+
+
+def generate_MA_process(c, theta, errors, lenght_of_series):
+
+    """
+    This function generates an MA process with the given parameters.
+    :param c: constant (float)
+    :param sigma: standard deviation of the error term (float)
+    :param theta: moving average coefficients (list)
+    :param errors: error term (list)
+    :param lenght: lenght of the MA process (int)
+    :return: MA process (list)
+
+    :Example:
+    >>> generate_MA_process(0, 1, 0.5)
+    """
+
+    MA_process = []
+
+    for i in range(lenght_of_series + 1):
+        if i == 0:
+            MA_process.append(c)
+        else:
+            MA_process.append(c + sum([theta[j] * errors[i - j - 1] for j in range(len(theta))]) + errors[i])
+
+    return MA_process
 
