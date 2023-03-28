@@ -1,13 +1,20 @@
 # History
 ---
 
+## 0.0.4.0.1 (28/03/2023)
+
+-  Plotting forecasts with prediction intervals is added.
+
+
 ## 0.0.4.0 (28/03/2023)
 
 -  Partial Autocorrelation function plot is added.
 
+
 ## 0.0.3.9 (27/03/2023)
 
 -  Bug fixed. (deseasonalize_series function)
+
 
 ## 0.0.3.8 (27/03/2023)
 

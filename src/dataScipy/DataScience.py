@@ -613,14 +613,55 @@ def plot_forecasts(data, horizon, forecasts, time_step=1):
     
     number_of_dots = len(horizon)
 
-    plt.figure(figsize=(12, 3))
+    plt.figure(figsize=(12, 5))
     plt.xticks(np.arange(min(horizon), max(horizon)+1, time_step))
     plt.grid()
     plt.plot(horizon, data[:number_of_dots], label='data')
     plt.plot(horizon, forecasts[:number_of_dots], label='forecast')
     plt.xlabel('Time')
-    plt.ylabel('Value')
     plt.title('Forecast and Data')
+    plt.legend()
+    plt.show()
+
+
+
+def plot_forecasts_predictIntervals(data, horizon, forecasts, error_function, percent=0.90, time_step=1):
+    """
+    Plot the forecasts for the time series.
+    :param data: the time series (list)
+    :param horizon: the time horizon (list)
+    :param forecasts: the forecasts (list)
+    :param error_function: the error function to calculate the error of the forecasts (function)
+    :param percent: the percentage of the prediction interval (float)
+    :param time_step: the step size for the time axis (integer)
+
+    :Example:
+    >>> data = list of data values
+    >>> horizon = list of time values
+    >>> forecasts = list of forecast values
+    >>> error_function = error function to calculate the error of the forecasts (MAE, MSE, RMSE, MAPE)
+    >>> percent = the percentage of the interval (0.90, 0.95, 0.99)
+    >>> time_step = the step size for the time axis (1, 2, 3, 4, 5, 6, 12)
+    >>> plot_forecasts(data, horizon, forecasts, error_function, percent, time_step)
+    """
+    
+    no_values = len(horizon)
+
+    error = error_function(data, forecasts)
+
+    a = (1 - percent) / 2
+    zval = abs(stats.norm.ppf(a))
+    forecasts_upper_bounds = forecasts + zval * error
+    forecasts_lower_bounds = forecasts - zval * error
+
+    plt.figure(figsize=(12, 5))
+    plt.xticks(np.arange(min(horizon), max(horizon)+1, time_step))
+    plt.grid()
+    plt.plot(horizon, data[:no_values], label='data')
+    plt.plot(horizon, forecasts[:no_values], label='forecast')
+    plt.fill_between(horizon, forecasts_lower_bounds[:no_values], forecasts_upper_bounds[:no_values], color='b', alpha=.1, label='confidence interval')
+    plt.xlabel('Time')
+    plt.title('Forecast and Data with Confidence Interval')
     plt.legend()
     plt.show()
 
