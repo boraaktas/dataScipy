@@ -625,7 +625,7 @@ def plot_forecasts(data, horizon, forecasts, time_step=1):
 
 
 
-def plot_forecasts_predictIntervals(data, horizon, forecasts, error_function, percent=0.90, time_step=1):
+def plot_forecasts_predictIntervals(data, horizon, forecasts, error_value, percent=0.90, time_step=1):
     """
     Plot the forecasts for the time series.
     :param data: the time series (list)
@@ -639,7 +639,7 @@ def plot_forecasts_predictIntervals(data, horizon, forecasts, error_function, pe
     >>> data = list of data values
     >>> horizon = list of time values
     >>> forecasts = list of forecast values
-    >>> error_function = error function to calculate the error of the forecasts (MAE, MSE, RMSE, MAPE)
+    >>> error_value = the error value for the forecasts (float)
     >>> percent = the percentage of the interval (0.90, 0.95, 0.99)
     >>> time_step = the step size for the time axis (1, 2, 3, 4, 5, 6, 12)
     >>> plot_forecasts(data, horizon, forecasts, error_function, percent, time_step)
@@ -647,12 +647,10 @@ def plot_forecasts_predictIntervals(data, horizon, forecasts, error_function, pe
     
     no_values = len(horizon)
 
-    error = error_function(data, forecasts)
-
     a = (1 - percent) / 2
     zval = abs(stats.norm.ppf(a))
-    forecasts_upper_bounds = forecasts + zval * error
-    forecasts_lower_bounds = forecasts - zval * error
+    forecasts_upper_bounds = forecasts + zval * error_value
+    forecasts_lower_bounds = forecasts - zval * error_value
 
     plt.figure(figsize=(12, 5))
     plt.xticks(np.arange(min(horizon), max(horizon)+1, time_step))
