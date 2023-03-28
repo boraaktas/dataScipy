@@ -1,6 +1,10 @@
 # History
 ---
 
+## 0.0.4.0 (28/03/2023)
+
+-  Partial Autocorrelation function plot is added.
+
 ## 0.0.3.9 (27/03/2023)
 
 -  Bug fixed. (deseasonalize_series function)

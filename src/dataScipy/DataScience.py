@@ -639,8 +639,8 @@ def plot_autocorrelation(values, no_lags=30):
     >>> plot_autocorrelation(residuals)
     """
     
-    residual_array = np.array(values)
-    normalized_resids = residual_array - np.array(residual_array.mean()) / residual_array.std()
+    values_array = np.array(values)
+    normalized_values = values_array - np.array(values_array.mean()) / values_array.std()
 
     max_lag = len(values)
     if max_lag > 30:
@@ -650,11 +650,83 @@ def plot_autocorrelation(values, no_lags=30):
         max_lag = no_lags + 1
 
     plt.figure(figsize=(6, 4)) 
-    sm.graphics.tsa.plot_acf(normalized_resids, color='b', ax=plt.gca(), lags=np.arange(1, max_lag))
+    sm.graphics.tsa.plot_acf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag))
     plt.title("Autocorrelation", loc='center')
     plt.ylabel("Correlations")
     plt.xlabel("Lags")
     plt.show()
+
+
+
+def plot_partial_autocorrelation(values, no_lags=30):
+    """
+    Plot the autocorrelation of the values.
+    :param values: the values to plot (list)
+    :param no_lags: the number of lags to plot (int)
+
+    :Example:
+    >>> data = list of data values
+    >>> plot_autocorrelation(data , no_lags=10)
+    >>> residuals = list of residuals
+    >>> plot_autocorrelation(residuals)
+    """
+    
+    values_array = np.array(values)
+    normalized_values = values_array - np.array(values_array.mean()) / values_array.std()
+
+    max_lag = len(values)
+    if max_lag > 30:
+        max_lag = 31
+
+    if no_lags < max_lag:
+        max_lag = no_lags + 1
+
+    plt.figure(figsize=(6, 4)) 
+    sm.graphics.tsa.plot_pacf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag), method='ywm')
+    plt.title("Partial-Autocorrelation", loc='center')
+    plt.ylabel("Correlations")
+    plt.xlabel("Lags")
+    plt.show()
+
+
+
+def plot_PACF_ACF_together(values, no_lags=30):
+    """
+    Plot the autocorrelation and partial autocorrelation of the values.
+    :param values: the values to plot (list)
+    :param no_lags: the number of lags to plot (int)
+
+    :Example:
+    >>> data = list of data values
+    >>> plot_autocorrelation(data , no_lags=10)
+    >>> residuals = list of residuals
+    >>> plot_autocorrelation(residuals)
+    """
+    
+    values_array = np.array(values)
+    normalized_values = values_array - np.array(values_array.mean()) / values_array.std()
+
+    max_lag = len(values)
+    if max_lag > 30:
+        max_lag = 31
+
+    if no_lags < max_lag:
+        max_lag = no_lags + 1
+
+    plt.figure(figsize=(13, 4)) 
+    plt.subplot(1, 2, 1)
+    sm.graphics.tsa.plot_acf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag))
+    plt.title("Autocorrelation", loc='center')
+    plt.ylabel("Correlations")
+    plt.xlabel("Lags")
+
+    plt.subplot(1, 2, 2)
+    sm.graphics.tsa.plot_pacf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag), method='ywm')
+    plt.title("Partial-Autocorrelation", loc='center')
+    plt.ylabel("Correlations")
+    plt.xlabel("Lags")
+    plt.show()
+    
 
 
 ##########################################################################################
