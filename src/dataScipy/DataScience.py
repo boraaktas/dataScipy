@@ -125,7 +125,7 @@ def MAPE(realVals, forecastVals):
     """
     realVals, forecastVals = make_length_equal_to_compare(realVals, forecastVals)
 
-    return np.mean(np.abs((np.array(realVals) - np.array(forecastVals))/np.array(realVals)))*100
+    return np.mean(np.abs((np.array(realVals) - np.array(forecastVals))) / np.array(realVals)) * 100
 
 
 
@@ -849,7 +849,7 @@ def deseasonalize_series(series, season_length):
 def generate_AR_process(c, phi, errors, lenght_of_series):
 
     """
-    This function generates an AR process with the given parameters.
+    This function generates an Auto Regressive process with the given parameters.
     :param c: constant (float)
     :param sigma: standard deviation of the error term (float)
     :param phi: auto-regression coefficients (list)
@@ -876,7 +876,7 @@ def generate_AR_process(c, phi, errors, lenght_of_series):
 def generate_MA_process(c, theta, errors, lenght_of_series):
 
     """
-    This function generates an MA process with the given parameters.
+    This function generates an Moving Average process with the given parameters.
     :param c: constant (float)
     :param sigma: standard deviation of the error term (float)
     :param theta: moving average coefficients (list)

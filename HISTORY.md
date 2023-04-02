@@ -1,10 +1,15 @@
 # History
 ---
 
+## 0.0.4.0.3 (02/04/2023)
+-  Bug fixed. (MAPE function)
+
+
 ## 0.0.4.0.2 (28/03/2023)
 
 -  Bug fixed. (plot_forecats_predictIntervals function)
-s
+
+
 ## 0.0.4.0.1 (28/03/2023)
 
 -  Plotting forecasts with prediction intervals is added.
