@@ -1,7 +1,13 @@
 # History
 ---
 
+## 0.0.4.0.4 (07/04/2023)
+
+-  Figsize parameter is added to the ploting functions.
+
+
 ## 0.0.4.0.3 (02/04/2023)
+
 -  Bug fixed. (MAPE function)
 
 
@@ -27,7 +33,7 @@
 
 ## 0.0.3.8 (27/03/2023)
 
--  Dta Tansformation functions are added. (log, differenced, seasonal differenced)
+-  Data Tansformation functions are added. (log, differenced, seasonal differenced)
 
 
 ## 0.0.3.7 (26/03/2023)

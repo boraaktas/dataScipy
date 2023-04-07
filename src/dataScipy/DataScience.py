@@ -215,7 +215,7 @@ def print_resids_summary(residuals):
 ##########################################################################################
 
 
-def plot_resids(residuals):
+def plot_resids(residuals, figsize=(8, 4), x_label='Time', y_label='Residuals', title='Residuals for the Forecast'):
     """
     Plot the residuals.
     :param residuals: the residuals (list)
@@ -225,18 +225,18 @@ def plot_resids(residuals):
     no_residuals = len(residuals)
     mean_array = [residuals_mean] * no_residuals
 
-    plt.figure(figsize=(8, 4))
+    plt.figure(figsize=figsize)
     plt.plot(residuals, label='Residual', color='b')
     plt.plot(mean_array, label='Mean', linestyle='--', color='r')
-    plt.title("Residuals for the Forecast", loc = 'center')
-    plt.xlabel("Time")
-    plt.ylabel("Residuals")
+    plt.title(title, loc = 'center')
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
     plt.legend()
     plt.show()
 
 
 
-def plot_normalized_resids(residuals):
+def plot_normalized_resids(residuals, figsize=(6, 4)):
     """
     Plot the normalized residuals.
     :param residuals: the residuals (list)
@@ -249,7 +249,7 @@ def plot_normalized_resids(residuals):
 
     normalized_resids = DataFrame((residual_array - np.array(mean)) / std)
 
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=figsize)
     plt.plot(normalized_resids, label='Normalized Residual', color='b')
     plt.title("Normalized Residuals for the Forecast", loc = 'center')
     plt.xlabel("Time")
@@ -259,7 +259,7 @@ def plot_normalized_resids(residuals):
 
 
 
-def plot_histogram_of_normalized_resids(residuals):
+def plot_histogram_of_normalized_resids(residuals, figsize=(6, 4)):
     """
     Plot the histogram of the normalized residuals.
     :param residuals: the residuals (list)
@@ -272,7 +272,7 @@ def plot_histogram_of_normalized_resids(residuals):
 
     normalized_resids = DataFrame((residual_array - np.array(mean)) / std)
 
-    fig = plt.figure(figsize=(6, 4))
+    fig = plt.figure(figsize=figsize)
     normalized_resids.plot(kind='hist', density=True, color='b', ec='w', ax=fig.gca(), legend=False)
     normalized_resids.plot(kind='kde', color='r', ax=fig.gca(), legend=False)
     plt.title("Histogram Plus Estimated Density", loc = 'center')
@@ -282,7 +282,7 @@ def plot_histogram_of_normalized_resids(residuals):
 
 
 
-def plot_normal_of_normalized_resids(residuals):
+def plot_normal_of_normalized_resids(residuals, figsize=(6, 4)):
     """
     Plot the normal Q-Q plot of the normalized residuals.
     :param residuals: the residuals (list)
@@ -295,7 +295,7 @@ def plot_normal_of_normalized_resids(residuals):
     normed = scaler.fit_transform(residual_array.reshape(-1, 1)) 
     residuals_norm = [round(i[0], 2) for i in normed]
 
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=figsize)
     stats.probplot(residuals_norm, dist="norm", plot=plt)
     plt.ylabel("Residuals")
     plt.title("Normal Q-Q plot", loc='center')
@@ -595,7 +595,8 @@ def compare_forecasts(data, forecasts, **error_metrics):
 
 
 
-def plot_forecasts(data, horizon, forecasts, time_step=1):
+def plot_forecasts(data, horizon, forecasts, time_step=1,
+                    figsize=(12, 5), title='Forecast and Data', xlabel=None, ylabel=None):
     """
     Plot the forecasts for the time series.
     :param data: the time series (list)
@@ -613,19 +614,21 @@ def plot_forecasts(data, horizon, forecasts, time_step=1):
     
     number_of_dots = len(horizon)
 
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=figsize)
     plt.xticks(np.arange(min(horizon), max(horizon)+1, time_step))
     plt.grid()
     plt.plot(horizon, data[:number_of_dots], label='data')
     plt.plot(horizon, forecasts[:number_of_dots], label='forecast')
-    plt.xlabel('Time')
-    plt.title('Forecast and Data')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
     plt.legend()
     plt.show()
 
 
 
-def plot_forecasts_predictIntervals(data, horizon, forecasts, error_value, percent=0.90, time_step=1):
+def plot_forecasts_predictIntervals(data, horizon, forecasts, error_value, percent=0.90, time_step=1, 
+                                    figsize=(12, 5), title='Forecast and Data with Prediction Intervals', xlabel=None, ylabel=None):
     """
     Plot the forecasts for the time series.
     :param data: the time series (list)
@@ -652,20 +655,21 @@ def plot_forecasts_predictIntervals(data, horizon, forecasts, error_value, perce
     forecasts_upper_bounds = forecasts + zval * error_value
     forecasts_lower_bounds = forecasts - zval * error_value
 
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=figsize)
     plt.xticks(np.arange(min(horizon), max(horizon)+1, time_step))
     plt.grid()
     plt.plot(horizon, data[:no_values], label='data')
     plt.plot(horizon, forecasts[:no_values], label='forecast')
     plt.fill_between(horizon, forecasts_lower_bounds[:no_values], forecasts_upper_bounds[:no_values], color='b', alpha=.1, label='confidence interval')
-    plt.xlabel('Time')
-    plt.title('Forecast and Data with Confidence Interval')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
     plt.legend()
     plt.show()
 
 
 
-def plot_autocorrelation(values, no_lags=30):
+def plot_autocorrelation(values, no_lags=30, figsize=(6, 4)):
     """
     Plot the autocorrelation of the values.
     :param values: the values (list)
@@ -688,7 +692,7 @@ def plot_autocorrelation(values, no_lags=30):
     if no_lags < max_lag:
         max_lag = no_lags + 1
 
-    plt.figure(figsize=(6, 4)) 
+    plt.figure(figsize=figsize)
     sm.graphics.tsa.plot_acf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag))
     plt.title("Autocorrelation", loc='center')
     plt.ylabel("Correlations")
@@ -697,7 +701,7 @@ def plot_autocorrelation(values, no_lags=30):
 
 
 
-def plot_partial_autocorrelation(values, no_lags=30):
+def plot_partial_autocorrelation(values, no_lags=30, figsize=(6, 4)):
     """
     Plot the autocorrelation of the values.
     :param values: the values to plot (list)
@@ -720,7 +724,7 @@ def plot_partial_autocorrelation(values, no_lags=30):
     if no_lags < max_lag:
         max_lag = no_lags + 1
 
-    plt.figure(figsize=(6, 4)) 
+    plt.figure(figsize=figsize)
     sm.graphics.tsa.plot_pacf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag), method='ywm')
     plt.title("Partial-Autocorrelation", loc='center')
     plt.ylabel("Correlations")
@@ -729,7 +733,7 @@ def plot_partial_autocorrelation(values, no_lags=30):
 
 
 
-def plot_PACF_ACF_together(values, no_lags=30):
+def plot_PACF_ACF_together(values, no_lags=30, figsize=(13, 4)):
     """
     Plot the autocorrelation and partial autocorrelation of the values.
     :param values: the values to plot (list)
@@ -752,7 +756,7 @@ def plot_PACF_ACF_together(values, no_lags=30):
     if no_lags < max_lag:
         max_lag = no_lags + 1
 
-    plt.figure(figsize=(13, 4)) 
+    plt.figure(figsize=figsize) 
     plt.subplot(1, 2, 1)
     sm.graphics.tsa.plot_acf(normalized_values, color='b', ax=plt.gca(), lags=np.arange(1, max_lag))
     plt.title("Autocorrelation", loc='center')
