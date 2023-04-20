@@ -1,6 +1,11 @@
 # History
 ---
 
+## 0.0.4.0.6 (20/04/2023)
+
+-  Bug fixed. (generate AR and MA models)
+
+
 ## 0.0.4.0.4 (07/04/2023)
 
 -  Figsize parameter is added to the ploting functions.
