@@ -1,7 +1,12 @@
 # History
 ---
 
-## 0.0.4.0.6 (20/04/2023)
+## 0.0.4.0.5.1 (20/04/2023)
+
+-  Bug fixed. (generate AR and MA models)
+
+
+## 0.0.4.0.5 (20/04/2023)
 
 -  Bug fixed. (generate AR and MA models)
 

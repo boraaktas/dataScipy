@@ -871,7 +871,7 @@ def generate_AR_process(c, phi, errors, lenght_of_series):
         if i == 0:
             AR_process.append(c)
         else:
-            AR_process.append(c + sum([phi[j] * AR_process[i - j - 1] for j in range(len(phi))]) + errors[i - 1])
+            AR_process.append(c + sum([phi[j] * AR_process[i - j - 1] for j in range(len(phi))]) + errors[i])
 
     return AR_process
 
@@ -898,7 +898,7 @@ def generate_MA_process(c, theta, errors, lenght_of_series):
         if i == 0:
             MA_process.append(c)
         else:
-            MA_process.append(c + sum([theta[j] * errors[i - j - 1] for j in range(len(theta))]) + errors[i - 1])
+            MA_process.append(c + sum([theta[j] * errors[i - j - 1] for j in range(len(theta))]) + errors[i])
 
     return MA_process
 
