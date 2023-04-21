@@ -351,9 +351,9 @@ def show_all_normalized_resids_plots(residuals):
     # bottom right subplot
     max_lag = len(residuals)
     if max_lag > 30:
-        max_lag = 30
+        max_lag = 31
 
-    sm.graphics.tsa.plot_acf(normalized_resids, color='b', ax=ax4, lags=np.arange(1, max_lag + 1))
+    sm.graphics.tsa.plot_acf(normalized_resids, color='b', ax=ax4, lags=np.arange(1, max_lag))
     ax4.set_title("Autocorrelation", loc='center')
     ax4.set_ylabel("Correlations")
     ax4.set_xlabel("Lags")
@@ -718,8 +718,8 @@ def plot_partial_autocorrelation(values, no_lags=30, figsize=(6, 4)):
     normalized_values = values_array - np.array(values_array.mean()) / values_array.std()
 
     max_lag = len(values)
-    if max_lag > 30:
-        max_lag = 31
+    if max_lag > 10:
+        max_lag = 11
 
     if no_lags < max_lag:
         max_lag = no_lags + 1
@@ -850,55 +850,130 @@ def deseasonalize_series(series, season_length):
 ###################################### GENERATE SERIES ###################################
 ##########################################################################################
 
-def generate_AR_process(c, phi, errors, lenght_of_series):
-
+def generate_AR_process(c, phi, errors, length_of_series, init_values=None):
     """
-    This function generates an Auto Regressive process with the given parameters.
-    :param c: constant (float)
-    :param sigma: standard deviation of the error term (float)
-    :param phi: auto-regression coefficients (list)
-    :param errors: error term (list)
-    :param lenght: lenght of the AR process (int)
-    :return: AR process (list)
+    Generate an AR(p) time series with coefficients c and phi, and errors e.
 
-    :Example:
-    >>> generate_AR_process(0, 1, 0.5)
-    """
+    Parameters:
+    c (float): The constant term in the autoregressive model equation.
+    phi (list): The list of p autoregressive coefficients.
+    errors (list): The list of errors, assumed to be white noise with mean 0 and constant variance.
+    length_of_series (int): The desired length of the time series.
+    init_values (list): The list of initial values for the time series. If None, the first p values will be set to 0.
 
-    AR_process = []
-
-    for i in range(lenght_of_series + 1):
-        if i == 0:
-            AR_process.append(c)
-        else:
-            AR_process.append(c + sum([phi[j] * AR_process[i - j - 1] for j in range(len(phi))]) + errors[i])
-
-    return AR_process
-
-
-
-def generate_MA_process(c, theta, errors, lenght_of_series):
-
-    """
-    This function generates an Moving Average process with the given parameters.
-    :param c: constant (float)
-    :param sigma: standard deviation of the error term (float)
-    :param theta: moving average coefficients (list)
-    :param errors: error term (list)
-    :param lenght: lenght of the MA process (int)
-    :return: MA process (list)
-
-    :Example:
-    >>> generate_MA_process(0, 1, 0.5)
+    Returns:
+    list: A list of length length_of_series containing the generated time series.
     """
 
+    p = len(phi)
+
+    # Set initial values of the time series
+    if init_values is None:
+        init_values = [0] * p
+    else:
+        assert len(init_values) == p, "Number of initial values must match the order of the autoregressive model."
+
+    # Generate the time series
+    AR_process = init_values.copy()
+    
+    for i in range(p, length_of_series + p):
+        y = c
+        for j in range(p):
+            y += phi[j] * AR_process[i-j-1]
+        
+        y += errors[i-p]
+        
+        AR_process.append(y)
+
+    return AR_process[p:]
+
+
+def generate_MA_process(c, theta, errors, length_of_series, init_errors=None):
+    """
+    Generate an MA(q) time series with mean C, coefficients theta, and errors e.
+
+    Parameters:
+    mu (float): The mean of the time series.
+    theta (list): The list of q moving average coefficients.
+    errors (list): The list of errors, assumed to be white noise with mean 0 and constant variance.
+    length_of_series (int): The desired length of the time series.
+    init_errors (list): The list of initial errors for the time series. If None, the first q values will be set to 0.
+
+    Returns:
+    list: A list of length length_of_series containing the generated time series.
+    """
+
+    q = len(theta)
+
+    # Set initial values of the time series
+    if init_errors is None:
+        init_errors = [0] * q
+    else:
+        assert len(init_errors) == q, "Number of initial errors must match the order of the moving average model."
+
+    # Generate the time series
     MA_process = []
+    
+    errors = init_errors + errors
+    
+    for i in range(q, length_of_series + q):
+        y = c
+        for j in range(q):
+            y += theta[j] * errors[i-j-1]
 
-    for i in range(lenght_of_series + 1):
-        if i == 0:
-            MA_process.append(c)
-        else:
-            MA_process.append(c + sum([theta[j] * errors[i - j - 1] for j in range(len(theta))]) + errors[i])
-
+        y += errors[i]
+        MA_process.append(y)
+        
     return MA_process
+
+def generate_ARMA_process(c, phi, theta, errors, length_of_series, init_values=None, init_errors=None):
+    """
+    Generate an ARMA(p,q) time series with mean C, autoregressive coefficients phi, moving average coefficients theta,
+    and errors e.
+
+    Parameters:
+    c (float): The mean of the time series.
+    phi (list): The list of p autoregressive coefficients.
+    theta (list): The list of q moving average coefficients.
+    errors (list): The list of errors, assumed to be white noise with mean 0 and constant variance.
+    length_of_series (int): The desired length of the time series.
+    init_values (list): The list of initial values for the time series. If None, the first p values will be set to 0.
+    init_errors (list): The list of initial errors for the time series. If None, the first q values will be set to 0.
+
+    Returns:
+    list: A list of length length_of_series containing the generated time series.
+    """
+
+    p = len(phi)
+    q = len(theta)
+
+    # Set initial values of the time series and errors
+    if init_values is None:
+        init_values = [0] * p
+    else:
+        assert len(init_values) == p, "Number of initial values must match the order of the autoregressive model."
+        
+    if init_errors is None:
+        init_errors = [0] * q
+    else:
+        assert len(init_errors) == q, "Number of initial errors must match the order of the moving average model."
+
+    # Generate the time series
+    ARMA_process = init_values.copy()
+
+    errors = init_errors + errors
+
+    for i in range(p, length_of_series + p):
+        y = c
+        for j in range(p):
+            y += phi[j] * ARMA_process[i-j-1]
+
+        for j in range(q):
+            y += theta[j] * errors[i-j-1]
+
+        y += errors[i]
+
+        ARMA_process.append(y)
+
+    return ARMA_process[p:]
 

@@ -1,6 +1,13 @@
 # History
 ---
 
+## 0.0.4.0.5.2 (20/04/2023)
+
+-  Bug fixed. (generate AR and MA models)
+-  ARMA model is added.
+-  Bug fixed. (show_all_normalized_resids_plots)
+
+
 ## 0.0.4.0.5.1 (20/04/2023)
 
 -  Bug fixed. (generate AR and MA models)
