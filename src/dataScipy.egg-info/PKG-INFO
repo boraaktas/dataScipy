@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: dataScipy
-Version: 0.0.4.0.5.2
+Version: 0.0.4.0.5.3
 Summary: Python Library for some data-science tasks
 Author-email: Bora Aktas <baktas19@ku.edu.tr>
 Project-URL: Homepage, https://github.com/boraaktas/dataScipy
@@ -19,6 +19,12 @@ Requires-Python: >=3.5
 Description-Content-Type: text/markdown
 License-File: LICENCE
 License-File: AUTHORS.md
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: scipy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: statsmodels
 
 # dataScipy - Data Science Library
 
